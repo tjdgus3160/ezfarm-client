@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-import { LoginReqType, LoginResType, Me } from '../types'
+import { LoginReqType, LoginResType, Me, SignupReqType } from '../types'
 
 const USER_API_URL = 'https://api.hanium-ezfarm.com'
 const SESSION_STORAGE_USER_KEY_NAME = 'user'
@@ -18,6 +18,17 @@ export default class UserService {
       }
     )
     return response.data.accessToken
+  }
+  public static async signup({
+    name,
+    email,
+    password,
+  }: SignupReqType): Promise<void> {
+    await axios.post(`${USER_API_URL}/api/user/signup`, {
+      name,
+      email,
+      password,
+    })
   }
   public static async getUser(token: string): Promise<Me> {
     const response = await axios.get<Me>(`${USER_API_URL}/api/user`, {

@@ -1,17 +1,8 @@
-import { Button } from 'antd'
 import React from 'react'
+import Layout from './Layout'
 
-interface Props {
-  logout: () => void
-}
-
-const Home = ({ logout }: Props) => {
-  return (
-    <div>
-      Home
-      <Button onClick={logout}>로그아웃</Button>
-    </div>
-  )
+const Home = () => {
+  return <Layout>Home</Layout>
 }
 
 export default Home

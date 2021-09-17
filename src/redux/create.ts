@@ -21,6 +21,7 @@ const create = () => {
       auth: {
         token,
         me,
+        mode: true,
         loading: false,
         error: null,
       },
