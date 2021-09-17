@@ -1,26 +1,28 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { ErrorBoundary } from 'react-error-boundary'
+import { BrowserRouter, Route, Switch } from 'react-router-dom'
+import Error from './pages/Error'
+import Home from './pages/Home'
+import Login from './pages/Login'
+import Myfarm from './pages/Myfarm'
+import NotFound from './pages/NotFound'
+import Notification from './pages/Notification'
+import Otherfarm from './pages/Otherfarm'
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <ErrorBoundary FallbackComponent={Error}>
+      <BrowserRouter>
+        <Switch>
+          <Route exact path="/login" component={Login} />
+          <Route exact path="/myfarm" component={Myfarm} />
+          <Route exact path="/otherfarm" component={Otherfarm} />
+          <Route exact path="/notification" component={Notification} />
+          <Route exact path="/" component={Home} />
+          <Route component={NotFound} />
+        </Switch>
+      </BrowserRouter>
+    </ErrorBoundary>
+  )
 }
 
-export default App;
+export default App
