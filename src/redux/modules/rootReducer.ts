@@ -2,16 +2,22 @@ import { combineReducers, AnyAction, Reducer } from 'redux'
 import { connectRouter, RouterState } from 'connected-react-router'
 import { History } from 'history'
 
-import auth, { AuthState } from './auth'
+import user, { UserState } from './user'
+import farm, { FarmState } from './farm'
+import facility, { FacilityState } from './facility'
 
 export interface RootState {
-  auth: AuthState
+  user: UserState
+  farm: FarmState
+  facility: FacilityState
   router: Reducer<RouterState<unknown>, AnyAction>
 }
 
 const rootReducer = (history: History<unknown>) =>
   combineReducers({
-    auth,
+    user,
+    farm,
+    facility,
     router: connectRouter(history),
   })
 

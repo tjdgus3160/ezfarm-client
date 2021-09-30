@@ -18,10 +18,9 @@ const create = () => {
   const store = createStore(
     reducer(history),
     {
-      auth: {
+      user: {
         token,
         me,
-        mode: true,
         loading: false,
         error: null,
       },

@@ -3,25 +3,23 @@ import { Action, createActions, handleActions } from 'redux-actions'
 import { call, put, takeEvery } from 'redux-saga/effects'
 import TokenService from '../../services/TokenService'
 import UserService from '../../services/UserService'
-import { LoginReqType, Me, SignupReqType } from '../../types'
+import { LoginReqType, Me, SignupReqType } from '../../interfaces/user'
 
-export interface AuthState {
+export interface UserState {
   token: string | null
   me: Me | null
-  mode: boolean
   loading: boolean
   error: Error | null
 }
 
-const initialState: AuthState = {
+const initialState: UserState = {
   token: null,
   me: null,
-  mode: true,
   loading: false,
   error: null,
 }
 
-const prefix = 'ezfarm/auth'
+const prefix = 'ezfarm/user'
 
 export const {
   request,
@@ -29,7 +27,6 @@ export const {
   logoutSuccess,
   signupSuccess,
   getUser,
-  changeMode,
   fail,
 } = createActions(
   'REQUEST',
@@ -37,12 +34,11 @@ export const {
   'LOGOUT_SUCCESS',
   'SIGNUP_SUCCESS',
   'GET_USER',
-  'CHANGE_MODE',
   'FAIL',
   { prefix }
 )
 
-const reducer = handleActions<AuthState, any>(
+const reducer = handleActions<UserState, any>(
   {
     REQUEST: state => ({
       ...state,
@@ -73,11 +69,6 @@ const reducer = handleActions<AuthState, any>(
       loading: false,
       error: null,
     }),
-    CHANGE_MODE: state => ({
-      ...state,
-      mode: !state.mode,
-      error: null,
-    }),
     FAIL: (state, action: any) => ({
       ...state,
       loading: false,
@@ -98,7 +89,7 @@ export const { login, logout, signup } = createActions(
   { prefix }
 )
 
-export function* authSaga() {
+export function* userSaga() {
   yield takeEvery(`${prefix}/LOGIN`, loginSaga)
   yield takeEvery(`${prefix}/LOGOUT`, logoutSaga)
   yield takeEvery(`${prefix}/SIGNUP`, signupSaga)
@@ -136,7 +127,7 @@ function* signupSaga(action: Action<SignupReqType>) {
     yield put(request())
     yield call(UserService.signup, action.payload)
     yield put(signupSuccess())
-    yield put(changeMode())
+    yield put(push('/login'))
   } catch (error) {
     yield put(fail('회원가입 실패'))
   }

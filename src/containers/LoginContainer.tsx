@@ -1,18 +1,14 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { LoginReqType, SignupReqType } from '../types'
-import {
-  changeMode,
-  login as loginSaga,
-  signup as signupSaga,
-} from '../redux/modules/auth'
+import { LoginReqType, SignupReqType } from '../interfaces/user'
+import { login as loginSaga } from '../redux/modules/user'
 import { RootState } from '../redux/modules/rootReducer'
-import Layout from '../components/Layout'
+import Layout from '../components/Layout/Layout'
 import LoginForm from '../components/Login/LoginForm'
 import SignupForm from '../components/Login/SignupForm'
 
 const LoginContainer = () => {
-  const { loading, error, mode } = useSelector((state: RootState) => state.auth)
+  const { loading, error } = useSelector((state: RootState) => state.user)
 
   const dispatch = useDispatch()
 
@@ -23,34 +19,9 @@ const LoginContainer = () => {
     [dispatch]
   )
 
-  const signup = useCallback(
-    ({ name, email, password }: SignupReqType) => {
-      dispatch(signupSaga({ name, email, password }))
-    },
-    [dispatch]
-  )
-
-  const change = useCallback(() => {
-    dispatch(changeMode())
-  }, [dispatch])
-
   return (
     <Layout>
-      {mode ? (
-        <LoginForm
-          loading={loading}
-          error={error}
-          login={login}
-          change={change}
-        />
-      ) : (
-        <SignupForm
-          loading={loading}
-          error={error}
-          signup={signup}
-          change={change}
-        />
-      )}
+      <LoginForm loading={loading} error={error} login={login} />
     </Layout>
   )
 }
