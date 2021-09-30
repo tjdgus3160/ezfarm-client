@@ -1,7 +1,7 @@
 import { Action, handleActions, createActions } from 'redux-actions'
 import { call, put, takeEvery } from 'redux-saga/effects'
 import { IFacility } from '../../interfaces/facility'
-import FacilityService from '../../services/FacilitySaga'
+import FacilityService from '../../services/FacilityService'
 
 export interface FacilityState {
   facility: IFacility | null

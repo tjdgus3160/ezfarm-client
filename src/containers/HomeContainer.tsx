@@ -1,13 +1,13 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
-import ButtonTap from '../components/Home/ButtonTap'
 import RecentNotification from '../components/Home/RecentNotification'
 import UserCurrentDashboard from '../components/Home/UserCurrentDashboard'
 import Layout from '../components/Layout/Layout'
 import { getFarms as getFarmsSaga } from '../redux/modules/farm'
 import { getFacility as getFacilitySaga } from '../redux/modules/facility'
 import { RootState } from '../redux/modules/rootReducer'
+import ModalTap from '../components/Home/ModalTap'
 
 const notifications = [
   {
@@ -41,7 +41,7 @@ const HomeContainer = () => {
       <RecentNotification notifications={notifications} />
       <Dashboard>
         <UserCurrentDashboard facility={facility} />
-        <ButtonTap />
+        <ModalTap />
       </Dashboard>
     </Layout>
   )
