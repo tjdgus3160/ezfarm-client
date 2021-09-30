@@ -2,10 +2,12 @@ import React from 'react'
 import styled from 'styled-components'
 import useToggle from '../../hooks/useToggle'
 import ControlModal from '../Modal/ControlModal'
+import FarmsModal from '../Modal/FarmsModal'
+import ScreenModal from '../Modal/ScreenModal'
 
 const ModalTap = () => {
   const [controlModalVisible, toggleControlModal] = useToggle(false)
-  const [viewModalVisible, toggleViewModal] = useToggle(false)
+  const [screenModalVisible, toggleScreenModal] = useToggle(false)
   const [farmsModalVisible, toggleFarmsModal] = useToggle(false)
 
   return (
@@ -17,20 +19,14 @@ const ModalTap = () => {
           onClose={toggleControlModal}
         />
       )}
-      <div onClick={toggleViewModal}>실시간 화면</div>
-      {/* <ModalPortal>
-        <ControlModal
-          visible={controlModalVisible}
-          onClose={toggleControlModal}
-        />
-      </ModalPortal> */}
+      <div onClick={toggleScreenModal}>실시간 화면</div>
+      {screenModalVisible && (
+        <ScreenModal visible={screenModalVisible} onClose={toggleScreenModal} />
+      )}
       <div onClick={toggleFarmsModal}>농가 선택</div>
-      {/* <ModalPortal>
-        <ControlModal
-          visible={controlModalVisible}
-          onClose={toggleControlModal}
-        />
-      </ModalPortal> */}
+      {farmsModalVisible && (
+        <FarmsModal visible={farmsModalVisible} onClose={toggleFarmsModal} />
+      )}
     </Wrapper>
   )
 }

@@ -23,9 +23,7 @@ const Layout: React.FC = ({ children }) => {
         extra={
           me !== null
             ? [
-                <Button key="2" type="primary">
-                  프로필 수정
-                </Button>,
+                <Button key="2">프로필 수정</Button>,
                 <Button key="1" type="primary" onClick={logout}>
                   로그아웃
                 </Button>,

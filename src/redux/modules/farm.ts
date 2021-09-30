@@ -1,10 +1,7 @@
-import { push } from 'connected-react-router'
 import { Action, createActions, handleActions } from 'redux-actions'
 import { call, put, takeEvery } from 'redux-saga/effects'
 import { IFarm, IFarmFormData } from '../../interfaces/farm'
-import { LoginReqType } from '../../interfaces/user'
 import FarmService from '../../services/FarmService'
-import TokenService from '../../services/TokenService'
 
 export interface FarmState {
   mainFarm: IFarm | null
@@ -86,7 +83,7 @@ function* addFarmSaga(action: Action<IFarmFormData>) {
 function* editFarmSaga(action: Action<{ farmId: number; farm: IFarm }>) {
   try {
     yield put(request())
-    yield call(FarmService.addFarm, action.payload.farm)
+    yield call(FarmService.editFarm, action.payload.farmId, action.payload.farm)
     yield put(getFarms())
   } catch (error) {
     yield put(fail('실패'))

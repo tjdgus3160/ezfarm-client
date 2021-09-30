@@ -1,6 +1,6 @@
 import { Button, Form, InputNumber, Switch } from 'antd'
 import Modal from 'antd/lib/modal/Modal'
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
 import useInput from '../../hooks/useInput'
 import useMainFarm from '../../hooks/useMainFarm'
@@ -16,11 +16,10 @@ interface Props {
 }
 
 const ControlModal = ({ visible, onClose }: Props) => {
-  const { loading } = useSelector((state: RootState) => state.facility)
-
   const mainFarm = useMainFarm()
   const [value, setValue] = useState<IControllerRes | null>(null)
   const [temperature, onChangeTemperature] = useInput(null)
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     const init = async () => {
@@ -33,15 +32,18 @@ const ControlModal = ({ visible, onClose }: Props) => {
 
   const onSubmit = useCallback(
     async ({ water, temperature, illuminance, co2 }) => {
-      console.log(temperature)
-      const value: IControllerReq = {
-        remoteId: mainFarm.id,
-        water: onoffConvert(water),
-        temperature,
-        illuminance: onoffConvert(illuminance),
-        co2: onoffConvert(co2),
-      }
-      await ControllerService.setValue(value)
+      try {
+        setLoading(true)
+        const value: IControllerReq = {
+          remoteId: mainFarm.id,
+          water: onoffConvert(water),
+          temperature,
+          illuminance: onoffConvert(illuminance),
+          co2: onoffConvert(co2),
+        }
+        await ControllerService.setValue(value)
+      } catch (e) {}
+      setLoading(false)
       onClose()
     },
     [mainFarm.id, onClose]
