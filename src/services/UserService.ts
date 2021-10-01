@@ -3,9 +3,10 @@ import axios from 'axios'
 import {
   LoginReqType,
   LoginResType,
-  Me,
+  IMe,
   SignupReqType,
 } from '../interfaces/user'
+import TokenService from './TokenService'
 
 const USER_API_URL = 'https://api.hanium-ezfarm.com/api/user'
 const SESSION_STORAGE_USER_KEY_NAME = 'user'
@@ -32,24 +33,24 @@ export default class UserService {
       password,
     })
   }
-  public static async getUser(token: string): Promise<Me> {
-    const response = await axios.get<Me>(`${USER_API_URL}`, {
+  public static async getUser(): Promise<IMe> {
+    const response = await axios.get<IMe>(`${USER_API_URL}`, {
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${TokenService.get()}`,
       },
     })
     return response.data
   }
 
-  public static async patchUser(token: string): Promise<void> {
-    await axios.patch(`${USER_API_URL}`, {
+  public static async patchUser(data: FormData): Promise<void> {
+    await axios.patch(`${USER_API_URL}`, data, {
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${TokenService.get()}`,
       },
     })
   }
 
-  public static get(): Me | null {
+  public static get(): IMe | null {
     const value = sessionStorage.getItem(SESSION_STORAGE_USER_KEY_NAME)
     if (value) {
       return JSON.parse(value)
@@ -57,7 +58,7 @@ export default class UserService {
     return null
   }
 
-  public static set(me: Me): void {
+  public static set(me: IMe): void {
     sessionStorage.setItem(SESSION_STORAGE_USER_KEY_NAME, JSON.stringify(me))
   }
 

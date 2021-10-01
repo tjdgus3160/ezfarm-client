@@ -14,6 +14,16 @@ export interface IFarm extends IFarmFormData {
   createdDate: string
 }
 
+export interface IFarmTable {
+  key: string
+  main: boolean
+  farmType: string
+  name: string
+  cropType: string
+  address: string
+  startDate: string
+}
+
 export interface IChartData {
   avgTmp: Array<any>
   avgIlluminance: Array<any>
@@ -24,7 +34,7 @@ export interface IChartData {
 }
 export interface IFarmTable {
   key: string
-  type: string
+  farmType: string
   name: string
   cropType: string
   startDate: string

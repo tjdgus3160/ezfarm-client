@@ -46,7 +46,6 @@ const FarmEnrollModal = ({ visible, onClose }: Props) => {
       <Form
         name="basic"
         wrapperCol={{ span: 16 }}
-        initialValues={{ remember: true }}
         onFinish={onSubmit}
         autoComplete="off"
         className="form"

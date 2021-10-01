@@ -6,11 +6,12 @@ import React, { useCallback, useMemo, useState } from 'react'
 import styled from 'styled-components'
 import useFarms from '../../hooks/useFarms'
 import useToggle from '../../hooks/useToggle'
-import { IFarm } from '../../interfaces/farm'
+import { IFarm, IFarmTable } from '../../interfaces/farm'
 import FarmEditModal from './FarmEditModal'
 import FarmEnrollModal from './FarmEnrollModal'
 import { useDispatch } from 'react-redux'
 import { deleteFarm } from '../../redux/modules/farm'
+import { koreanization } from '../../utils/utils'
 
 interface Props {
   visible: boolean
@@ -40,13 +41,14 @@ const FarmsModal = ({ visible, onClose }: Props) => {
     [dispatch]
   )
 
-  const columns: ColumnsType<IFarm> = useMemo(
+  const columns: ColumnsType<IFarmTable> = useMemo(
     () => [
       {
         title: '',
         dataIndex: 'main',
+        key: 'main',
         align: 'center',
-        render: (_, { main }: IFarm) => (
+        render: (_, { main }: IFarmTable) => (
           <Space size="middle">{main && <Dot />}</Space>
         ),
       },
@@ -73,13 +75,13 @@ const FarmsModal = ({ visible, onClose }: Props) => {
       {
         title: 'option',
         width: 200,
-        render: (_, { id, name, main }: IFarm) => (
+        render: (_, { key, main }: IFarmTable) => (
           <Space size="middle">
             <Button
               type="primary"
               onClick={() => {
                 toggleFarmEditModal()
-                setFarmId(id)
+                setFarmId(Number(key))
               }}
             >
               수정
@@ -88,7 +90,7 @@ const FarmsModal = ({ visible, onClose }: Props) => {
               type="primary"
               danger
               onClick={() => {
-                showConfirm(id)
+                showConfirm(Number(key))
               }}
             >
               삭제
@@ -101,6 +103,30 @@ const FarmsModal = ({ visible, onClose }: Props) => {
     [showConfirm, toggleFarmEditModal]
   )
 
+  const dataSource: IFarmTable[] = useMemo(
+    () =>
+      farms.map(
+        ({
+          id,
+          main,
+          farmType,
+          name,
+          cropType,
+          address,
+          startDate,
+        }: IFarm) => ({
+          key: String(id),
+          main,
+          farmType: koreanization(farmType),
+          name,
+          cropType: koreanization(cropType),
+          address,
+          startDate,
+        })
+      ),
+    [farms]
+  )
+
   return (
     <Modal
       title="나의 농가 목록"
@@ -108,9 +134,17 @@ const FarmsModal = ({ visible, onClose }: Props) => {
       visible={visible}
       onCancel={onClose}
       width={1000}
-      footer={[<Button onClick={toggleFarmEnrollModal}>농가등록</Button>]}
+      footer={[
+        <Button key={1} onClick={toggleFarmEnrollModal}>
+          농가등록
+        </Button>,
+      ]}
     >
-      <Table<IFarm> columns={columns} dataSource={farms} pagination={false} />
+      <Table<IFarmTable>
+        columns={columns}
+        dataSource={dataSource}
+        pagination={false}
+      />
       {farmEnrollModalVisible && (
         <FarmEnrollModal
           visible={farmEnrollModalVisible}

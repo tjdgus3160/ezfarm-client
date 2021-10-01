@@ -13,7 +13,7 @@ export interface SignupReqType {
   password: string
 }
 
-export interface Me {
+export interface IMe {
   id: number
   email: string
   name: string

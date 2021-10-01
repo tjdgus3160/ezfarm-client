@@ -27,7 +27,6 @@ const SignupForm = ({ loading, error, signup }: Props) => {
         name="basic"
         labelCol={{ span: 8 }}
         wrapperCol={{ span: 16 }}
-        initialValues={{ remember: true }}
         onFinish={onFinish}
         autoComplete="off"
         className="form"

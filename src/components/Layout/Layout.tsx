@@ -5,11 +5,13 @@ import { RootState } from '../../redux/modules/rootReducer'
 import { logout as logoutSaga } from '../../redux/modules/user'
 import Navigation from './Navigation'
 import styled from 'styled-components'
+import useToggle from '../../hooks/useToggle'
+import ProfileModal from '../Modal/ProfileModal'
 
 const Layout: React.FC = ({ children }) => {
-  const { me } = useSelector((state: RootState) => state.user)
-
   const dispatch = useDispatch()
+  const { me } = useSelector((state: RootState) => state.user)
+  const [profileModalVisible, toggleProfileModal] = useToggle(false)
 
   const logout = useCallback(() => {
     dispatch(logoutSaga())
@@ -23,7 +25,9 @@ const Layout: React.FC = ({ children }) => {
         extra={
           me !== null
             ? [
-                <Button key="2">프로필 수정</Button>,
+                <Button key="2" onClick={toggleProfileModal}>
+                  프로필 수정
+                </Button>,
                 <Button key="1" type="primary" onClick={logout}>
                   로그아웃
                 </Button>,
@@ -31,9 +35,15 @@ const Layout: React.FC = ({ children }) => {
             : []
         }
       />
-      <div className="content">
+      <div className="body">
         {me && <Navigation />}
         <main>{children}</main>
+        {profileModalVisible && (
+          <ProfileModal
+            visible={profileModalVisible}
+            onClose={toggleProfileModal}
+          />
+        )}
       </div>
     </Wrapper>
   )
@@ -49,7 +59,7 @@ const Wrapper = styled.div`
   .logo {
     width: 180px;
   }
-  .content {
+  .body {
     display: flex;
   }
   main {

@@ -3,11 +3,11 @@ import { Action, createActions, handleActions } from 'redux-actions'
 import { call, put, takeEvery } from 'redux-saga/effects'
 import TokenService from '../../services/TokenService'
 import UserService from '../../services/UserService'
-import { LoginReqType, Me, SignupReqType } from '../../interfaces/user'
+import { LoginReqType, IMe, SignupReqType } from '../../interfaces/user'
 
 export interface UserState {
   token: string | null
-  me: Me | null
+  me: IMe | null
   loading: boolean
   error: Error | null
 }
@@ -82,10 +82,11 @@ const reducer = handleActions<UserState, any>(
 export default reducer
 
 // saga
-export const { login, logout, signup } = createActions(
+export const { login, logout, signup, editProfile } = createActions(
   'LOGIN',
   'LOGOUT',
   'SIGNUP',
+  'EDIT_PROFILE',
   { prefix }
 )
 
@@ -93,14 +94,15 @@ export function* userSaga() {
   yield takeEvery(`${prefix}/LOGIN`, loginSaga)
   yield takeEvery(`${prefix}/LOGOUT`, logoutSaga)
   yield takeEvery(`${prefix}/SIGNUP`, signupSaga)
+  yield takeEvery(`${prefix}/EDIT_PROFILE`, editProfileSaga)
 }
 
 function* loginSaga(action: Action<LoginReqType>) {
   try {
     yield put(request())
     const token: string = yield call(UserService.login, action.payload)
-    const me: Me = yield call(UserService.getUser, token)
     TokenService.set(token)
+    const me: IMe = yield call(UserService.getUser)
     UserService.set(me)
     yield put(loginSuccess(token))
     yield put(getUser(me))
@@ -130,5 +132,17 @@ function* signupSaga(action: Action<SignupReqType>) {
     yield put(push('/login'))
   } catch (error) {
     yield put(fail('회원가입 실패'))
+  }
+}
+
+function* editProfileSaga(action: Action<FormData>) {
+  try {
+    yield put(request())
+    yield call(UserService.patchUser, action.payload)
+    const me: IMe = yield call(UserService.getUser)
+    UserService.set(me)
+    yield put(getUser(me))
+  } catch (error) {
+    yield put(fail('실패'))
   }
 }
