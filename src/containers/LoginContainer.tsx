@@ -1,11 +1,10 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { LoginReqType, SignupReqType } from '../interfaces/user'
+import { LoginReqType } from '../interfaces/user'
 import { login as loginSaga } from '../redux/modules/user'
 import { RootState } from '../redux/modules/rootReducer'
 import Layout from '../components/Layout/Layout'
 import LoginForm from '../components/Login/LoginForm'
-import SignupForm from '../components/Login/SignupForm'
 
 const LoginContainer = () => {
   const { loading, error } = useSelector((state: RootState) => state.user)
