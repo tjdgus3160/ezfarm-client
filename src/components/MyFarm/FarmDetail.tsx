@@ -55,7 +55,7 @@ const FarmDetail = () => {
     if (farm) {
       init()
     }
-  }, [farm?.id])
+  }, [farm])
 
   return (
     <Wrapper>

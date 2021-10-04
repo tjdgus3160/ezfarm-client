@@ -1,5 +1,5 @@
 import Table, { ColumnsType } from 'antd/lib/table'
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { useMemo } from 'react'
 import { IFacilityAvg, IFacilityTable } from '../../interfaces/facility'
 
@@ -8,7 +8,6 @@ interface Props {
 }
 
 const FacilityTable = ({ tableData }: Props) => {
-  const [value, setValue] = useState<IFacilityTable[] | null>()
   const columns: ColumnsType<IFacilityTable> = useMemo(
     () => [
       {
@@ -43,20 +42,18 @@ const FacilityTable = ({ tableData }: Props) => {
     []
   )
 
-  useEffect(() => {
-    if (tableData) {
-      const data: IFacilityTable[] = tableData.map(ele => ({
-        key: String(ele.measureDate),
-        ...ele,
-      }))
-      setValue(data)
-    }
-  }, [tableData])
-
-  if (!value) {
+  if (tableData === null) {
     return null
   }
-  return <Table<IFacilityTable> columns={columns} dataSource={value} />
+  return (
+    <Table<IFacilityTable>
+      columns={columns}
+      dataSource={tableData.map(ele => ({
+        key: String(ele.measureDate),
+        ...ele,
+      }))}
+    />
+  )
 }
 
 export default FacilityTable

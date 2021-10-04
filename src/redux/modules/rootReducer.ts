@@ -5,11 +5,13 @@ import { History } from 'history'
 import user, { UserState } from './user'
 import farm, { FarmState } from './farm'
 import facility, { FacilityState } from './facility'
+import favorite, { FavoriteState } from './favorite'
 
 export interface RootState {
   user: UserState
   farm: FarmState
   facility: FacilityState
+  favorite: FavoriteState
   router: Reducer<RouterState<unknown>, AnyAction>
 }
 
@@ -18,6 +20,7 @@ const rootReducer = (history: History<unknown>) =>
     user,
     farm,
     facility,
+    favorite,
     router: connectRouter(history),
   })
 

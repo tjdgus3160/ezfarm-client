@@ -2,12 +2,12 @@ import axios from 'axios'
 import { IScreen } from '../interfaces/screen'
 import TokenService from './TokenService'
 
-const USER_API_URL = 'https://api.hanium-ezfarm.com/api/screen'
+const SCREEN_API_URL = 'https://api.hanium-ezfarm.com/api/screen'
 
 export default class ScreenService {
   public static async getScreenLive(farmId: number): Promise<IScreen> {
     const response = await axios.get<IScreen>(
-      `${USER_API_URL}/live/${farmId}`,
+      `${SCREEN_API_URL}/live/${farmId}`,
       {
         headers: { Authorization: `Bearer  ${TokenService.get()}` },
       }

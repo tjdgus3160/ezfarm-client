@@ -23,3 +23,11 @@ export interface IFarmTable {
   address: string
   startDate: string
 }
+
+export interface IfarmSearchCond {
+  cropType?: string
+  farmGroup?: string
+  farmType?: string
+  page: number
+  size: number
+}
