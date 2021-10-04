@@ -17,8 +17,11 @@ export default class FavoriteService {
     })
   }
   public static async deleteFavorite(favoriteId: number): Promise<void> {
-    await axios.delete(`${FAVORITE_API_URL}/${favoriteId}`, {
+    await axios.delete(`${FAVORITE_API_URL}`, {
       headers: { Authorization: `Bearer  ${TokenService.get()}` },
+      params: {
+        favoriteId,
+      },
     })
   }
 }
