@@ -59,7 +59,7 @@ const SelectBar = ({
         </div>
       </div>
       <div className="currentFarm">
-        현재 선택된 농가<span>{farm?.name}</span>
+        나의 농가<span>{farm?.name}</span>
       </div>
       <SelectedBtn onClick={toggleFarmsModal}>농가선택</SelectedBtn>
       {farmsModalVisible && (
