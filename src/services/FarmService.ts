@@ -34,7 +34,7 @@ export default class FarmService {
   public static async getOtherFarms(): Promise<IOtherFarm[]> {
     let params: IfarmSearchCond | null = FarmService.getCond()
     if (params === null) {
-      params = { page: 0, size: 100 }
+      params = { page: 0, size: 5 }
     }
     const response = await axios.get<IOtherFarm[]>(`${FARM_API_URL}/other`, {
       headers: { Authorization: `Bearer  ${TokenService.get()}` },

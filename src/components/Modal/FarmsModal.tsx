@@ -11,7 +11,6 @@ import FarmEditModal from './FarmEditModal'
 import FarmEnrollModal from './FarmEnrollModal'
 import { useDispatch } from 'react-redux'
 import { deleteFarm } from '../../redux/modules/farm'
-import { koreanization } from '../../utils/utils'
 
 interface Props {
   visible: boolean
@@ -117,9 +116,9 @@ const FarmsModal = ({ visible, onClose }: Props) => {
         }: IFarm) => ({
           key: String(id),
           main,
-          farmType: koreanization(farmType),
+          farmType,
           name,
-          cropType: koreanization(cropType),
+          cropType,
           address,
           startDate,
         })

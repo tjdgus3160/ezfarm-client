@@ -12,9 +12,13 @@ export default class FavoriteService {
     return response.data
   }
   public static async addFavorite(farmId: number): Promise<void> {
-    await axios.post(`${FAVORITE_API_URL}/${farmId}`, {
-      headers: { Authorization: `Bearer  ${TokenService.get()}` },
-    })
+    await axios.post(
+      `${FAVORITE_API_URL}`,
+      { farmId },
+      {
+        headers: { Authorization: `Bearer  ${TokenService.get()}` },
+      }
+    )
   }
   public static async deleteFavorite(favoriteId: number): Promise<void> {
     await axios.delete(`${FAVORITE_API_URL}`, {

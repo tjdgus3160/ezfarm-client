@@ -29,11 +29,11 @@ export default class FacilityService {
     term: string,
     params: any
   ): Promise<IFacilityAvg[]> {
-    const response = await axios.post<IFacilityAvg[]>(
+    const response = await axios.get<IFacilityAvg[]>(
       `${FACILITY_API_URL}/${urlName(term)}-avg/${farmId}`,
-      params,
       {
         headers: { Authorization: `Bearer  ${TokenService.get()}` },
+        params,
       }
     )
     return response.data

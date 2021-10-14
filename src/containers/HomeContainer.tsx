@@ -8,6 +8,7 @@ import { getFarms as getFarmsSaga } from '../redux/modules/farm'
 import { getFacility as getFacilitySaga } from '../redux/modules/facility'
 import { RootState } from '../redux/modules/rootReducer'
 import ModalTap from '../components/Home/ModalTap'
+import UserService from '../services/UserService'
 
 const notifications = [
   {
@@ -28,6 +29,8 @@ const HomeContainer = () => {
 
   useEffect(() => {
     dispatch(getFarmsSaga())
+    const fcmToken = localStorage.getItem('fcmToken') as string
+    UserService.fcmRegister(fcmToken)
   }, [dispatch])
 
   useEffect(() => {

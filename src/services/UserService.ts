@@ -65,4 +65,13 @@ export default class UserService {
   public static remove(): void {
     sessionStorage.removeItem(SESSION_STORAGE_USER_KEY_NAME)
   }
+  public static async fcmRegister(deviceToken: string): Promise<void> {
+    await axios.post(
+      `${USER_API_URL}/register`,
+      { params: { deviceToken } },
+      {
+        headers: { Authorization: `Bearer  ${TokenService.get()}` },
+      }
+    )
+  }
 }

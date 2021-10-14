@@ -64,9 +64,10 @@ const Nav = styled.nav`
     padding-left: 0;
   }
   li {
+    height: 60px;
     position: relative;
     cursor: pointer;
-    margin-bottom: 120px;
+    margin-bottom: 60px;
     &:hover .nav__link {
       transform: translateX(85px);
       transition: all 0.9s ease-in-out;

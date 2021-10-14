@@ -53,8 +53,11 @@ const Wrapper = styled.div`
   height: 100vh;
   background: url('/images/bg.png') no-repeat;
   background-size: 100% 100%;
+  overflow-y: auto;
+  width: 100%;
   .header {
     background: white;
+    min-width: 1200px;
   }
   .logo {
     width: 180px;
