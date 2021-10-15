@@ -10,17 +10,6 @@ import Notification from './pages/Notification'
 import Farmcomparison from './pages/Farmcomparison'
 import { history } from './redux/create'
 import Signup from './pages/Signup'
-import { messagingService } from './firebase'
-import { getToken, onMessage } from 'firebase/messaging'
-
-getToken(messagingService, { vapidKey: process.env.REACT_APP_VAPID_KEY }).then(
-  currentToken => {
-    localStorage.setItem('fcmToken', currentToken)
-  }
-)
-onMessage(messagingService, payload => {
-  console.log(payload)
-})
 
 const App = () => {
   return (

@@ -1,8 +1,6 @@
 import { Action, handleActions, createActions } from 'redux-actions'
-import { call, put, takeEvery } from 'redux-saga/effects'
+import { put, takeEvery } from 'redux-saga/effects'
 import { IFacility } from '../../interfaces/facility'
-import FacilityService from '../../services/FacilityService'
-
 export interface FacilityState {
   facility: IFacility | null
   loading: boolean
@@ -61,11 +59,21 @@ export function* facilitySaga() {
 function* getFacilitySaga(action: Action<number>) {
   try {
     yield put(request())
-    const facility: IFacility = yield call(
-      FacilityService.getFacility,
-      action.payload
+    // const facility: IFacility = yield call(
+    //   FacilityService.getFacility,
+    //   action.payload
+    // )
+    yield put(
+      getFacilitySuccess({
+        co2: '30',
+        humidity: '21',
+        illuminance: '11',
+        measureDate: '16',
+        mos: '27',
+        ph: '15',
+        tmp: '36',
+      })
     )
-    yield put(getFacilitySuccess(facility))
   } catch (error) {
     yield put(fail('실패'))
   }

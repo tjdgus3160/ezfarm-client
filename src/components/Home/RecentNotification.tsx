@@ -1,19 +1,23 @@
 import React from 'react'
+import { useSelector } from 'react-redux'
+import { Link } from 'react-router-dom'
 import styled from 'styled-components'
+import { RootState } from '../../redux/modules/rootReducer'
 
-interface Props {
-  notifications: any
-}
-
-const RecentNotification = ({ notifications }: Props) => {
+const RecentNotification = () => {
+  const { notifications } = useSelector(
+    (state: RootState) => state.notification
+  )
   return (
     <Wrapper>
-      <div className="title">Recent notifications</div>
-      {notifications.map((ele: any) => (
-        <div key={ele.id} className="content">
-          🔔 {ele.msg}
-        </div>
-      ))}
+      <Link to="/notification">
+        <div className="title">Recent notifications</div>
+        {notifications?.slice(0, 2).map((ele, idx) => (
+          <div key={idx} className="content">
+            🔔 {ele.content}
+          </div>
+        ))}
+      </Link>
     </Wrapper>
   )
 }

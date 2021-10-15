@@ -8,30 +8,23 @@ import { getFarms as getFarmsSaga } from '../redux/modules/farm'
 import { getFacility as getFacilitySaga } from '../redux/modules/facility'
 import { RootState } from '../redux/modules/rootReducer'
 import ModalTap from '../components/Home/ModalTap'
-import UserService from '../services/UserService'
-
-const notifications = [
-  {
-    id: 0,
-    msg: '토마토 농가의 조도를 1 낮추었습니다.',
-  },
-  {
-    id: 1,
-    msg: '17시 46분 온도가 적정 온도를 초과하였습니다.',
-  },
-]
+import { getNotification } from '../redux/modules/notification'
 
 const HomeContainer = () => {
   const { mainFarm } = useSelector((state: RootState) => state.farm)
+  const { me } = useSelector((state: RootState) => state.user)
   const { facility } = useSelector((state: RootState) => state.facility)
-
   const dispatch = useDispatch()
 
   useEffect(() => {
     dispatch(getFarmsSaga())
-    const fcmToken = localStorage.getItem('fcmToken') as string
-    UserService.fcmRegister(fcmToken)
   }, [dispatch])
+
+  useEffect(() => {
+    if (me) {
+      dispatch(getNotification(me.id))
+    }
+  }, [dispatch, me])
 
   useEffect(() => {
     if (mainFarm) {
@@ -41,7 +34,7 @@ const HomeContainer = () => {
 
   return (
     <Layout>
-      <RecentNotification notifications={notifications} />
+      <RecentNotification />
       <Dashboard>
         <UserCurrentDashboard facility={facility} />
         <ModalTap />

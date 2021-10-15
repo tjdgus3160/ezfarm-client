@@ -1,5 +1,7 @@
 import moment from 'moment'
 import { IChartData, IFacilityAvg } from '../interfaces/facility'
+import Stomp from 'stompjs'
+import SockJS from 'sockjs-client'
 
 export const onoffConvert = (value: boolean) => {
   return value ? 'ON' : 'OFF'
@@ -72,3 +74,21 @@ export const makeChartData = (data: IFacilityAvg[]): IChartData => {
   })
   return chartData
 }
+
+let sockJS = new SockJS('https://api.hanium-ezfarm.com/ws')
+let socket: Stomp.Client = Stomp.over(sockJS)
+socket.debug = (str: string) => {
+  console.log(str)
+}
+socket.connect(
+  () => {
+    console.log('연결 성공')
+  },
+  () => {
+    console.log('연결 실패')
+  }
+)
+
+export const getSocket = () => ({
+  socket,
+})

@@ -21,9 +21,18 @@ const ControlModal = ({ visible, onClose }: Props) => {
 
   useEffect(() => {
     const init = async () => {
-      const currentValue = await ControllerService.getValue(mainFarm.id)
-      setValue(currentValue)
-      onChangeTemperature(currentValue.temperature)
+      // const currentValue = await ControllerService.getValue(mainFarm.id)
+      // setValue(currentValue)
+      // onChangeTemperature(currentValue.temperature)
+      setValue({
+        co2: 'OFF',
+        createdDate: '',
+        id: 1,
+        illuminance: 'OFF',
+        temperature: 26,
+        updatedDate: 'OFF',
+        water: 'OFF',
+      })
     }
     init()
   }, [mainFarm?.id, onChangeTemperature])
