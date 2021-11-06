@@ -1,60 +1,51 @@
-import { Button, Form, InputNumber, Switch } from 'antd'
-import Modal from 'antd/lib/modal/Modal'
-import React, { useCallback, useEffect, useState } from 'react'
-import useInput from '../../hooks/useInput'
-import useMainFarm from '../../hooks/useMainFarm'
-import { IControllerReq, IControllerRes } from '../../interfaces/controller'
-import ControllerService from '../../services/ControllerService'
-import { onoffConvert } from '../../utils/utils'
-import Loading from '../Loading'
+import { Button, Form, InputNumber, Switch } from 'antd';
+import Modal from 'antd/lib/modal/Modal';
+import React, { useCallback, useEffect, useState } from 'react';
+import useInput from '../../hooks/useInput';
+import useMainFarm from '../../hooks/useMainFarm';
+import { IControllerReq, IControllerRes } from '../../interfaces/controller';
+import ControllerService from '../../services/ControllerService';
+import { onoffConvert } from '../../utils/utils';
+import Loading from '../Loading';
 
 interface Props {
-  visible: boolean
-  onClose: () => void
+  visible: boolean;
+  onClose: () => void;
 }
 
 const ControlModal = ({ visible, onClose }: Props) => {
-  const mainFarm = useMainFarm()
-  const [value, setValue] = useState<IControllerRes | null>(null)
-  const [temperature, onChangeTemperature] = useInput(null)
-  const [loading, setLoading] = useState(false)
+  const mainFarm = useMainFarm();
+  const [value, setValue] = useState<IControllerRes | null>(null);
+  const [temperature, onChangeTemperature] = useInput(null);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const init = async () => {
-      // const currentValue = await ControllerService.getValue(mainFarm.id)
-      // setValue(currentValue)
-      // onChangeTemperature(currentValue.temperature)
-      setValue({
-        co2: 'OFF',
-        createdDate: '',
-        id: 1,
-        illuminance: 'OFF',
-        temperature: 26,
-        updatedDate: 'OFF',
-        water: 'OFF',
-      })
-    }
-    init()
-  }, [mainFarm?.id, onChangeTemperature])
+      const currentValue = await ControllerService.getValue(mainFarm.id);
+      setValue(currentValue);
+      onChangeTemperature(currentValue.temperature);
+    };
+    init();
+  }, [mainFarm?.id, onChangeTemperature]);
 
   const onSubmit = useCallback(
     async ({ water, temperature, illuminance, co2 }) => {
       try {
-        setLoading(true)
+        setLoading(true);
         const value: IControllerReq = {
-          remoteId: mainFarm.id,
+          remoteId: 1,
           water: onoffConvert(water),
           temperature,
           illuminance: onoffConvert(illuminance),
           co2: onoffConvert(co2),
-        }
-        await ControllerService.setValue(value)
+        };
+        await ControllerService.setValue(value);
       } catch (e) {}
-      setLoading(false)
-      onClose()
+      setLoading(false);
+      onClose();
     },
-    [mainFarm.id, onClose]
-  )
+    [onClose]
+  );
 
   return (
     <Modal
@@ -114,7 +105,7 @@ const ControlModal = ({ visible, onClose }: Props) => {
         </Form>
       )}
     </Modal>
-  )
-}
+  );
+};
 
-export default ControlModal
+export default ControlModal;

@@ -1,27 +1,27 @@
-import { Modal } from 'antd'
-import React, { useEffect, useState } from 'react'
-import styled from 'styled-components'
-import useMainFarm from '../../hooks/useMainFarm'
-import { IScreen } from '../../interfaces/screen'
-import ScreenService from '../../services/ScreenService'
-import Loading from '../Loading'
+import { Modal } from 'antd';
+import React, { useEffect, useState } from 'react';
+import styled from 'styled-components';
+import useMainFarm from '../../hooks/useMainFarm';
+import { IScreen } from '../../interfaces/screen';
+import ScreenService from '../../services/ScreenService';
+import Loading from '../Loading';
 
 interface Props {
-  visible: boolean
-  onClose: () => void
+  visible: boolean;
+  onClose: () => void;
 }
 
 const ScreenModal = ({ visible, onClose }: Props) => {
-  const mainFarm = useMainFarm()
-  const [screen, setScreen] = useState<IScreen | null>(null)
+  const mainFarm = useMainFarm();
+  const [screen, setScreen] = useState<IScreen | null>(null);
 
   useEffect(() => {
     const init = async () => {
-      const screen = await ScreenService.getScreenLive(mainFarm.id)
-      setScreen(screen)
-    }
-    init()
-  }, [mainFarm?.id])
+      const screen = await ScreenService.getScreenLive(194);
+      setScreen(screen);
+    };
+    init();
+  }, [mainFarm?.id]);
 
   return (
     <Modal
@@ -48,8 +48,8 @@ const ScreenModal = ({ visible, onClose }: Props) => {
         </Wrapper>
       )}
     </Modal>
-  )
-}
+  );
+};
 
 const Wrapper = styled.div`
   /* border: 1px solid gray; */
@@ -80,18 +80,18 @@ const Wrapper = styled.div`
       font-weight: 700;
     }
   }
-`
+`;
 const Stick = styled.span<{ wt: number }>`
   position: absolute;
   height: 100%;
-  width: ${props => `${props.wt}%`};
+  width: ${(props) => `${props.wt}%`};
   border-radius: 20px;
   background-color: #b6da72;
   left: 0;
-`
+`;
 const ImgTime = styled.span`
   margin-left: auto;
   font-weight: 600;
-`
+`;
 
-export default ScreenModal
+export default ScreenModal;
